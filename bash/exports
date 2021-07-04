@@ -74,6 +74,7 @@ if [ -d "$XDG_DATA_HOME/terminfo" ]; then
 	export TERMINFO_DIRS="$XDG_DATA_HOME/terminfo:$PREFIX/share/terminfo"
 fi
 
+export RIPGREP_CONFIG_PATH="$XDG_CONFIG_HOME/ripgrep/rc"
 export ZPLUG_HOME="$PREFIX/opt/zplug"
 export ZPLUG_REPOS="$XDG_DATA_HOME/zplug/repos"
 export ZPLUG_CACHE_DIR="$XDG_CACHE_HOME/zplug"
@@ -87,7 +88,7 @@ export MPDCRON_DIR="$XDG_CONFIG_HOME/mpdcron"
 export URXVT_PERL_LIB="$XDG_CONFIG_HOME/urxvt/ext"
 export MAD_CONFIG="$XDG_CONFIG_HOME/mad/config"
 export WEGORC="$XDG_CONFIG_HOME/wego/config"
-export MEMO_HOME="$HOME/docs/books/"
+export MEMO_HOME="$HOME/docs/blog/"
 export MYSQL_HISTFILE="$XDG_CACHE_HOME/mysql_history"
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export LESSKEY="$XDG_CONFIG_HOME/lesskey/output"
@@ -113,6 +114,8 @@ then
 	export FZF_DEFAULT_COMMAND='ag -U --hidden --follow --nogroup --nocolor -g ""'
 fi
 
+export JQ_COLORS="1;30:0;31:0;32:0;33:0;34:1;35:1;36"
+
 # See: https://github.com/tmux-python/tmuxp
 export TMUXP_CONFIGDIR="$XDG_CONFIG_HOME/tmuxp"
 
@@ -122,6 +125,10 @@ if [ -d "${HOME}/Library/Android/sdk" ]; then
 	PATH="${PATH}:${ANDROID_HOME}/tools"
 	PATH="${PATH}:${ANDROID_HOME}/platform-tools"
 fi
+
+# Amazon AWS
+export AWS_CONFIG_FILE="${HOME}/docs/aws/config"
+export AWS_SHARED_CREDENTIALS_FILE="${HOME}/docs/aws/credentials"
 
 # Google Cloud SDK
 if [ -d "/usr/local/Caskroom/google-cloud-sdk" ]; then
@@ -151,7 +158,7 @@ export PIPX_HOME="$WORKON_HOME"
 
 # PostgreSQL CLI utilities
 export PSQLRC="$XDG_CONFIG_HOME/psql/config"
-#export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
+export PGCLIRC="$XDG_CONFIG_HOME/pgcli/config"
 
 # Editors
 export ATOM_HOME="$XDG_DATA_HOME"/atom
@@ -160,7 +167,7 @@ export ANDROID_SDK_HOME="$XDG_DATA_HOME"/android
 # Databases
 export SQLITE_HISTORY="$XDG_CACHE_HOME/sqlite_history"
 
-# Ops
+# Kubernetes
 hash minikube 2>/dev/null && export MINIKUBE_HOME="$XDG_DATA_HOME/minikube"
 if hash kubectl 2>/dev/null; then
 	export KUBECONFIG="$XDG_CONFIG_HOME/kube/config.yml"
@@ -168,10 +175,13 @@ if hash kubectl 2>/dev/null; then
 	PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fi
 
-# DISABLED Set luarocks user config
-# hash luarocks 2>/dev/null && export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+# Lua and Luarocks user config
+export LUAROCKS_CONFIG="$XDG_CONFIG_HOME/luarocks/config.lua"
+export LUA_PATH="$XDG_DATA_HOME/lua/5.3/share/lua/5.3/?.lua"
+export LUA_PATH="${LUA_PATH};${XDG_DATA_HOME}/lua/5.3/share/lua/5.3/?/init.lua;;"
+export LUA_CPATH="$XDG_DATA_HOME/lua/5.3/lib/lua/5.3/?.so;;"
 
-# GO configuration
+# Go configuration
 if hash go 2>/dev/null; then
 	export GOPATH="$XDG_DATA_HOME"/go
 	PATH="$PATH:$GOPATH/bin"
@@ -180,7 +190,8 @@ fi
 # Node NPM tool configuration
 if hash npm 2>/dev/null; then
 	export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME/npm/npmrc"
-	PATH="$PATH:${XDG_DATA_HOME}/npm/bin"
+	export N_PREFIX="${XDG_DATA_HOME}/nodejs"
+	PATH="${N_PREFIX}/bin:$PATH:${XDG_DATA_HOME}/npm/bin"
 fi
 
 # Rust Cargo configuration
